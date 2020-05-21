@@ -21,11 +21,12 @@ int main()
 	temp.will_mutate			= true;
 	temp.will_produce			= true;
 	temp.is_hostile				= false;
-	temp.mutation_degree		= 1;
+	temp.mutation_degree		= 50;
 	temp.time_alive				= 0;
-	temp.life_span				= 60;
+	temp.life_span				= 100;
 	temp.family_branch			= "0";
-	temp.reproduction_chance	= 70;
+	temp.reproduction_chance	= 50;
+	temp.generation				= 0;
 
 	Cell test_cell(temp);
 
@@ -33,6 +34,5 @@ int main()
 
 	SimulationManager MainRunspace(&test_cell);
 	MainRunspace.MainCycle(&window);
-
 
 }

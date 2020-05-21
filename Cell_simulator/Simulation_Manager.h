@@ -37,4 +37,6 @@ private:
 	int max_cell_count;
 	bool keep_creating_new_cells;
 
+	Info avg_cell_info;
+
 };

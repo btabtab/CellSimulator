@@ -43,13 +43,17 @@ struct Info
 	cell can stay alive for.*/
 	int life_span;
 
+	/*This checks for the chance that the 
+	cell will reproduce.*/
+	int reproduction_chance;
+
 	/*This is a sequence that will determin
 	the seed for any future mutations from
 	the cells family.*/
 	std::string family_branch;
 
-	/*This checks for the chance that the 
-	cell will reproduce.*/
-	int reproduction_chance;
-
+	/*This will be used to track the
+	generation of the cell (from the
+	initial cell).*/
+	int generation;
 };

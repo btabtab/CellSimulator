@@ -16,25 +16,28 @@ public:
 	pass information from the previous cell
 	so as to keep it similiar and to have
 	some groundwork for any mutation.*/
-	Cell(Info* info);
 	Cell(Info info);
 
-	Info		getInfo();
+	Info			getInfo();
 
-	void		mutate();
+	void			mutate();
 
-	int			produceRandomValue();
-	int			produceRandomValue(int max, int min);
+	int				produceRandomValue();
+	int				produceRandomValue(int max, int min);
 
-	std::string generateFamilyBranch();
+	std::string		generateFamilyBranch();
 
-	void		render(sf::RenderWindow* p_window);
+	void			render(sf::RenderWindow* p_window);
 
-	void		die();
+	void			die();
 
-	void		age();
+	void			age();
 
-	void		setPos(sf::Vector2f n_pos);
+	sf::Vector2f*	getPosPtr();
+
+	void redoPosition(int distance);
+
+	void think();
 
 private:
 

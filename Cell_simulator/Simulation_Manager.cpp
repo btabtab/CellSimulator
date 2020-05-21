@@ -5,7 +5,7 @@ SimulationManager::SimulationManager(Cell* p_base_cell)
 {
 	cell_list.push_back(p_base_cell);
 
-	max_cell_count = 2000;
+	max_cell_count = 100;
 
 	std::cout << cell_list.back()->getInfo().colour.r << std::endl;
 	std::cout << cell_list.back()->getInfo().colour.g << std::endl;
@@ -34,12 +34,16 @@ void SimulationManager::MainCycle(sf::RenderWindow* p_window)
 
 		p_window->display();
 		p_window->clear();
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::K))
+			p_window->close();
 	}
 
 }
 
 void SimulationManager::checkCells(sf::RenderWindow* p_window)
 {
+
 	int cell_count_per_tick = cell_list.size();
 
 	bool check_this_half = true;
@@ -55,14 +59,14 @@ void SimulationManager::checkCells(sf::RenderWindow* p_window)
 			if (cell_list.at(i)->getInfo().will_produce == true)
 			{
 				
-				if (rand() % 73 + 1 >= 70)
+				if (rand() % 73 + 1 <= cell_list.at(i)->getInfo().reproduction_chance)
 				{
 					if (cell_list.size() >= max_cell_count)
 					{
 						keep_creating_new_cells = false;
-						max_cell_count += max_cell_count / 8;
+						max_cell_count += max_cell_count / 4;
 					}
-					if (cell_list.size() <= max_cell_count / 2)
+					if (cell_list.size() <= max_cell_count / 8)
 					{
 						keep_creating_new_cells = true;
 					}
@@ -70,12 +74,26 @@ void SimulationManager::checkCells(sf::RenderWindow* p_window)
 					if (keep_creating_new_cells)
 					{
 						createCell(i);
+						for (int o = 0; o != cell_list.size(); o++)
+						{
+							if (*cell_list.back()->getPosPtr() == *cell_list.at(o)->getPosPtr())
+							{
+								cell_list.back()->redoPosition(o);								
+							}
+							else
+							{
+								break;
+							}
+						}
 					}
 
 				}
 			}
 
-			if (cell_list.at(i)->getInfo().time_alive == cell_list.at(i)->getInfo().life_span)
+			if (
+				cell_list.at(i)->getInfo().time_alive == cell_list.at(i)->getInfo().life_span
+				||
+				cell_list.at(i)->getInfo().time_alive >= cell_list.at(i)->getInfo().life_span)
 			{
 				cell_list.at(i)->die();
 			}
@@ -94,7 +112,9 @@ void SimulationManager::checkCells(sf::RenderWindow* p_window)
 		{
 			check_this_half = true;
 		}
-		
+
+		//cell_list.at(i)->think();
+
 		cell_list.at(i)->render(p_window);
 
 	}
